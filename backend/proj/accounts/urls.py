@@ -13,9 +13,7 @@ urlpatterns += [
     path('accounts/', views.UserList.as_view()),
     path('accounts/<int:pk>/', views.UserDetail.as_view()),
 ]
-urlpatterns += [
-    path('api-auth/', include('rest_framework.urls')),
-]
+
 urlpatterns += [
     path('login/', LoginAPI.as_view()),
     path('register/', RegisterAPI.as_view())
