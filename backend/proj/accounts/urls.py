@@ -1,8 +1,8 @@
 from django.urls import path
 from rest_framework import routers
-from voter.api import LocationViewSet
+from accounts.api import UsermodelViewSet
 
 router = routers.DefaultRouter()
-router.register('locations', LocationViewSet, 'locations')
+router.register('users', UsermodelViewSet, 'users')
 
 urlpatterns = router.urls

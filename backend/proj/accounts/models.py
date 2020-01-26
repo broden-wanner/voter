@@ -5,7 +5,20 @@ from django.contrib.auth.models import AbstractUser
 
 
 class Usermodel(AbstractUser):
-    # preferredvotinglocation: get these later
-    # matcheduser (compare current locations)
-    # currentlocation (based on device data)
-    pass
+    preferredvotinglocation = models.ForeignKey(
+        'voter.Location', 
+        on_delete=models.SET_NULL,
+        related_name='preferred',
+        null=True)
+    currentLocation = models.ForeignKey(
+        'voter.Location', 
+        on_delete=models.SET_NULL,
+        related_name='current',
+        null=True)
+    role = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.username
+    
+
+

@@ -1,10 +1,7 @@
 from django.shortcuts import render
 
-# Create your views here.
-from django.http import HttpResponse
-
-
-def index(request):
-    return HttpResponse("Hello, world. You're at the voter index.")
-
-# use this to send data from the backend to the front
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from voter.models import Location
+from voter.serializers import LocationSerializer
