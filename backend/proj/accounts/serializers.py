@@ -4,9 +4,6 @@ from rest_framework import serializers
 from accounts.models import Usermodel
 
 class UsermodelSerializer(serializers.ModelSerializer):
-    users = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Usermodel.objects.all())
-
     class Meta:
         model = Usermodel
         fields = '__all__'

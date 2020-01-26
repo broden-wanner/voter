@@ -22,16 +22,12 @@ class UsermodelViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
-        """
-        Override the get_queryset method to return only those
-        projects which belong to the user
-        """
         return Usermodel.objects.all()
 
 
 class UserAPI(generics.RetrieveAPIView):
     serializer_class = UsermodelSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
 
     def get_object(self):
         return self.request.user
@@ -39,6 +35,9 @@ class UserAPI(generics.RetrieveAPIView):
 
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
+    permission_classes = [permissions.AllowAny]
+
+    # queryset = Usermodel.objects.all()
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
