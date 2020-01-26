@@ -8,7 +8,7 @@ class Location(models.Model):
     # latitude = models.DecimalField(max_digits=12, decimal_places=9)
     # likely unused in the actual database
     # longitude = models.DecimalField(max_digits=12, decimal_places=9)
-    canditates = models.TextField()
+    candidates = models.TextField()
     address = models.TextField()
     location = models.CharField(max_length=30)
 
