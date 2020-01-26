@@ -33,8 +33,8 @@ export class UserData {
   }
 
   async signup(username: string): Promise<any> {
-    await this.storage.set(this.HAS_LOGGED_IN, true);
     this.setUsername(username);
+    await this.storage.set(this.HAS_LOGGED_IN, true);
     return window.dispatchEvent(new CustomEvent('user:signup'));
   }
 

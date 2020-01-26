@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, ViewChild, AfterViewInit, OnInit } from '@angular/core';
-import { LocationData } from '../../providers/location-data';
+import { LocationService } from '../../providers/location.service';
 import { Platform, AlertController } from '@ionic/angular';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -15,7 +15,7 @@ export class MapComponent implements AfterViewInit, OnInit {
 
   constructor(
     @Inject(DOCUMENT) private doc: Document,
-    public locationData: LocationData,
+    public locationService: LocationService,
     public platform: Platform,
     private route: ActivatedRoute,
     public alertCtrl: AlertController
@@ -24,9 +24,6 @@ export class MapComponent implements AfterViewInit, OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.selectLocation = params['selectLocation'];
-      if (this.selectLocation) {
-        this.alertLocationSelection();
-      }
     });
   }
 
@@ -56,8 +53,9 @@ export class MapComponent implements AfterViewInit, OnInit {
     const googleMaps = await getGoogleMaps('AIzaSyDAvyXeJn1MTe5NsoKxSwBTufnavgn4AWI');
 
     let map: any;
+    let geocoder: any;
 
-    this.locationData.getMap().subscribe((mapData: any) => {
+    this.locationService.getMap().subscribe((mapData: any) => {
       const mapEle = this.mapElement.nativeElement;
 
       map = new googleMaps.Map(mapEle, {
@@ -65,23 +63,39 @@ export class MapComponent implements AfterViewInit, OnInit {
         styles: style
       });
 
-      // Add a marker for each location
-      mapData.forEach((markerData: any) => {
+      geocoder = new googleMaps.Geocoder();
+
+      const addLocationMarker = (i: number) => {
+        if (i >= mapData.length) {
+          return;
+        }
+        const markerData = mapData[i];
         const infoWindow = new googleMaps.InfoWindow({
-          content: `<h5>${markerData.name}</h5>`
+          content: `<h5>${markerData.location}</h5><br><p>${markerData.precinct}</p>`
         });
 
-        const marker = new googleMaps.Marker({
-          position: markerData,
-          map,
-          title: markerData.name
-        });
+        // Get the coordinates for the address
+        geocodeAddress(geocoder, markerData.address, (pos: any) => {
+          const marker = new googleMaps.Marker({
+            position: pos,
+            map,
+            title: markerData.location
+          });
 
-        marker.addListener('click', () => {
-          infoWindow.open(map, marker);
-          this.setLocation(markerData);
+          marker.addListener('click', () => {
+            infoWindow.open(map, marker);
+            this.setLocation(markerData);
+          });
+          setTimeout(() => addLocationMarker(i + 1), 500);
         });
-      });
+      };
+      // Add a marker for each location
+      addLocationMarker(0);
+
+      // Tell the user to select a location
+      if (this.selectLocation) {
+        this.alertLocationSelection();
+      }
 
       // Zoom the map on the user's location
       if (navigator.geolocation) {
@@ -144,5 +158,15 @@ function getGoogleMaps(apiKey: string): Promise<any> {
         reject('google maps not available');
       }
     };
+  });
+}
+
+function geocodeAddress(geocoder: any, address: string, callback) {
+  geocoder.geocode({ address: address }, (results: any, status: string) => {
+    if (status === 'OK') {
+      callback(results[0].geometry.location);
+    } else {
+      console.error('Geocode was not successful for the following reason: ' + status);
+    }
   });
 }

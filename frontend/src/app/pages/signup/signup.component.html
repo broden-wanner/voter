@@ -15,10 +15,10 @@
   <div class="signup-logo">
     <img src="assets/icon/logo-name-transparent.png" alt="VoteR logo" />
   </div>
-  <form #signupForm="ngForm" novalidate>
+  <form #signupForm="ngForm" novalidate class="form">
     <ion-list>
       <ion-item>
-        <ion-label position="stacked" color="primary">Username</ion-label>
+        <ion-label color="secondary">Username</ion-label>
         <ion-input
           [(ngModel)]="signup.username"
           name="username"
@@ -35,7 +35,7 @@
       </ion-text>
 
       <ion-item>
-        <ion-label position="stacked" color="primary">Password</ion-label>
+        <ion-label color="secondary">Password</ion-label>
         <ion-input
           [(ngModel)]="signup.password"
           name="password"
@@ -50,10 +50,31 @@
           Password is required
         </p>
       </ion-text>
+
+      <ion-item>
+        <ion-label color="secondary">Are you able to drive?</ion-label>
+        <ion-checkbox
+          slot="end"
+          [(ngModel)]="signup.role"
+          name="role"
+          #role="ngModel"
+        ></ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label color="secondary">Select leave time on the election:</ion-label>
+        <ion-datetime
+          color="secondary"
+          displayFormat="HH:mm DD/MM/YYYY"
+          [(ngModel)]="signup.leaveTime"
+          name="leaveTime"
+          #leaveTime="ngModel"
+        ></ion-datetime>
+      </ion-item>
     </ion-list>
 
     <div class="ion-padding">
-      <ion-button (click)="onSignup(signupForm)" type="submit" expand="block">Create</ion-button>
+      <ion-button (click)="onSignup(signupForm)" type="submit" expand="block">Sign Up</ion-button>
     </div>
   </form>
 </ion-content>

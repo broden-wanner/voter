@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 
 import { UserData } from '../../providers/user-data';
+import { AuthService } from 'src/app/providers/auth.service';
 
 @Component({
   selector: 'app-user-view',
@@ -11,12 +12,12 @@ import { UserData } from '../../providers/user-data';
   styleUrls: ['./user-view.component.scss']
 })
 export class UserViewComponent implements AfterViewInit {
-  username: string;
+  user: any;
 
   constructor(
     public alertCtrl: AlertController,
     public router: Router,
-    public userData: UserData
+    private authService: AuthService
   ) {}
 
   ngAfterViewInit() {
@@ -35,7 +36,7 @@ export class UserViewComponent implements AfterViewInit {
         {
           text: 'Ok',
           handler: (data: any) => {
-            this.userData.setUsername(data.username);
+            //this.authService.setUser()
             this.getUsername();
           }
         }
@@ -44,7 +45,7 @@ export class UserViewComponent implements AfterViewInit {
         {
           type: 'text',
           name: 'username',
-          value: this.username,
+          value: this.user.username,
           placeholder: 'username'
         }
       ]
@@ -55,9 +56,7 @@ export class UserViewComponent implements AfterViewInit {
   changeVotingLocation() {}
 
   getUsername() {
-    this.userData.getUsername().then(username => {
-      this.username = username;
-    });
+    this.user = this.authService.getCurrentUserValue();
   }
 
   changePassword() {
@@ -65,8 +64,9 @@ export class UserViewComponent implements AfterViewInit {
   }
 
   logout() {
-    this.userData.logout();
-    this.router.navigateByUrl('/app/login');
+    this.authService.logout().subscribe(() => {
+      this.router.navigateByUrl('/app/login');
+    });
   }
 
   support() {

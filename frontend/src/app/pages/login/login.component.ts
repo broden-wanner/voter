@@ -3,6 +3,7 @@ import { UserOptions } from 'src/app/models/user-options';
 import { Router } from '@angular/router';
 import { UserData } from 'src/app/providers/user-data';
 import { NgForm } from '@angular/forms';
+import { AuthService } from 'src/app/providers/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,14 +14,16 @@ export class LoginComponent {
   login: UserOptions = { username: '', password: '' };
   submitted = false;
 
-  constructor(public userData: UserData, public router: Router) {}
+  constructor(public authService: AuthService, public router: Router) {}
 
   onLogin(form: NgForm) {
     this.submitted = true;
 
     if (form.valid) {
-      this.userData.login(this.login.username);
-      this.router.navigateByUrl('/app/you');
+      this.authService.login(this.login).subscribe(
+        () => this.router.navigateByUrl('/app/you'),
+        err => console.error(err)
+      );
     }
   }
 
