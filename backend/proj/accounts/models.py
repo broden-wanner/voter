@@ -16,7 +16,7 @@ class Usermodel(AbstractUser):
         related_name='current',
         null=True)
     role = models.BooleanField(default=False)
-    leaveTime = models.DateTimeField()
+    leaveTime = models.DateTimeField(auto_now=False, auto_now_add=False)
 
 
     def __str__(self):
