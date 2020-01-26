@@ -4,6 +4,9 @@ import { TabsPage } from './tabs.page';
 import { UserViewComponent } from '../pages/user-view/user-view.component';
 import { MapComponent } from '../pages/map/map.component';
 import { VotingInfoComponent } from '../pages/voting-info/voting-info.component';
+import { LoginComponent } from '../pages/login/login.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { SignupComponent } from '../pages/signup/signup.component';
 
 const routes: Routes = [
   {
@@ -12,15 +15,26 @@ const routes: Routes = [
     children: [
       {
         path: 'you',
-        component: UserViewComponent
+        component: UserViewComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'map',
-        component: MapComponent
+        component: MapComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'voting-info',
-        component: VotingInfoComponent
+        component: VotingInfoComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'login',
+        component: LoginComponent
+      },
+      {
+        path: 'signup',
+        component: SignupComponent
       }
     ]
   },

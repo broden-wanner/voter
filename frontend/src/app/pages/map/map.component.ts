@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, ViewChild, AfterViewInit } from '@angular/core';
-import { ConferenceData } from '../../providers/conference-data';
+import { LocationData } from '../../providers/location-data';
 import { Platform } from '@ionic/angular';
 import { DOCUMENT } from '@angular/common';
 
@@ -13,28 +13,27 @@ export class MapComponent implements AfterViewInit {
 
   constructor(
     @Inject(DOCUMENT) private doc: Document,
-    public confData: ConferenceData,
+    public locationData: LocationData,
     public platform: Platform
   ) {}
 
   async ngAfterViewInit() {
     const appEl = this.doc.querySelector('ion-app');
-    let isDark = false;
     let style = [];
 
-    const googleMaps = await getGoogleMaps('');
+    const googleMaps = await getGoogleMaps('AIzaSyDAvyXeJn1MTe5NsoKxSwBTufnavgn4AWI');
 
     let map;
 
-    this.confData.getMap().subscribe((mapData: any) => {
+    this.locationData.getMap().subscribe((mapData: any) => {
       const mapEle = this.mapElement.nativeElement;
 
       map = new googleMaps.Map(mapEle, {
-        center: mapData.find((d: any) => d.center),
-        zoom: 16,
+        zoom: 14,
         styles: style
       });
 
+      // Add a marker for each location
       mapData.forEach((markerData: any) => {
         const infoWindow = new googleMaps.InfoWindow({
           content: `<h5>${markerData.name}</h5>`
@@ -51,6 +50,25 @@ export class MapComponent implements AfterViewInit {
         });
       });
 
+      // Zoom the map on the user's location
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            const pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            map.setCenter(pos);
+          },
+          () => {
+            console.error('Error with getting current location');
+          }
+        );
+      } else {
+        // Browser doesn't support Geolocation
+        console.error('Error with getting current location');
+      }
+
       googleMaps.event.addListenerOnce(map, 'idle', () => {
         mapEle.classList.add('show-map');
       });
@@ -60,7 +78,6 @@ export class MapComponent implements AfterViewInit {
       mutations.forEach(mutation => {
         if (mutation.attributeName === 'class') {
           const el = mutation.target as HTMLElement;
-          isDark = el.classList.contains('dark-theme');
           if (map) {
             map.setOptions({ styles: [] });
           }
@@ -82,7 +99,7 @@ function getGoogleMaps(apiKey: string): Promise<any> {
 
   return new Promise((resolve, reject) => {
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&v=3.31`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
