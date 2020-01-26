@@ -11,6 +11,7 @@ base_site='https://pollfinder.sos.state.mn.us/Street.aspx?ModeType=1&ZipCode='
 browser = webdriver.Firefox()
 data=[]
 
+precincts=[]
 precinct=""
 loc=""
 adr=""
@@ -58,9 +59,11 @@ while loop_var<len(zips):
                     candidate={}
                     cells=rows[k].find_elements_by_tag_name("td")
                     candidate["office"] = cells[0].find_elements_by_tag_name("span")[0].text
-                    candidate["name"] = cells[1].find_elements_by_tag_name("span")[0].text
+                    name = cells[1].find_elements_by_tag_name("span")[0].text
+                    candidate["name"] = name
                     candidate["party"] = cells[2].text
-                    candidates.append(candidate)
+                    if name not in precincts:
+                        candidates.append(candidate)
                     k+=1
                 browser.back()
 
@@ -74,7 +77,8 @@ while loop_var<len(zips):
                 cells[0].find_elements_by_tag_name("a")[0].click()
 
                 name=(browser.find_element_by_id("ctl00_MainContent_lblPrecinctName").text)
-                if name not in precinct:
+                if name not in precincts:
+                    precincts.append(name)
                     precinct=name
                     loc=(browser.find_element_by_id("ctl00_MainContent_lblPPBuildingName").text)
                     adr=(browser.find_element_by_id("ctl00_MainContent_lblPPAddr1").text+browser.find_element_by_id("ctl00_MainContent_lblPPCityStateZip").text)
