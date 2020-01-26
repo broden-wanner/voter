@@ -16,6 +16,8 @@ class Usermodel(AbstractUser):
         related_name='current',
         null=True)
     role = models.BooleanField(default=False)
+    leaveTime = models.DateTimeField()
+
 
     def __str__(self):
         return self.username
