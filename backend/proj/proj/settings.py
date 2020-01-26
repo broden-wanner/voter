@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'accounts',
     'voter',
     'rest_framework',
+    'knox'
 ]
 
 MIDDLEWARE = [
