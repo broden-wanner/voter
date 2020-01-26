@@ -58,3 +58,5 @@ class UserList(generics.ListAPIView):
 class UserDetail(generics.RetrieveAPIView):
     queryset = Usermodel.objects.all()
     serializer_class = UsermodelSerializer
+
+# make a partner class

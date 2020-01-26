@@ -44,6 +44,7 @@ class RegisterAPI(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         instance, token = AuthToken.objects.create(user)
+        
         return Response({
             'user': UsermodelSerializer(user, context=self.get_serializer_context()).data,
             'token': token,
@@ -53,6 +54,8 @@ class RegisterAPI(generics.GenericAPIView):
 
 class LoginAPI(generics.GenericAPIView):
     serializer_class = LoginSerializer
+    permission_classes = [permissions.AllowAny]
+
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
