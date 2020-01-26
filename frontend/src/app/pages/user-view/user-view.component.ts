@@ -12,7 +12,7 @@ import { AuthService } from 'src/app/providers/auth.service';
   styleUrls: ['./user-view.component.scss']
 })
 export class UserViewComponent implements AfterViewInit {
-  user: any;
+  user = {} as any;
 
   constructor(
     public alertCtrl: AlertController,
@@ -53,10 +53,11 @@ export class UserViewComponent implements AfterViewInit {
     await alert.present();
   }
 
+  // TODO
   changeVotingLocation() {}
 
   getUsername() {
-    this.user = this.authService.getCurrentUserValue();
+    this.authService.getCurrentUserObs().subscribe(user => (this.user = user));
   }
 
   changePassword() {

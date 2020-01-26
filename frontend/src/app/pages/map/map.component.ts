@@ -86,7 +86,7 @@ export class MapComponent implements AfterViewInit, OnInit {
             infoWindow.open(map, marker);
             this.setLocation(markerData);
           });
-          setTimeout(() => addLocationMarker(i + 1), 500);
+          setTimeout(() => addLocationMarker(i + 1), 1);
         });
       };
       // Add a marker for each location
@@ -162,11 +162,17 @@ function getGoogleMaps(apiKey: string): Promise<any> {
 }
 
 function geocodeAddress(geocoder: any, address: string, callback) {
-  geocoder.geocode({ address: address }, (results: any, status: string) => {
-    if (status === 'OK') {
-      callback(results[0].geometry.location);
-    } else {
-      console.error('Geocode was not successful for the following reason: ' + status);
-    }
-  });
+  const loc = localStorage.getItem(address);
+  if (!loc) {
+    geocoder.geocode({ address: address }, (results: any, status: string) => {
+      if (status === 'OK') {
+        localStorage.setItem(address, JSON.stringify(results[0].geometry.location));
+        callback(results[0].geometry.location);
+      } else {
+        console.error('Geocode was not successful for the following reason: ' + status);
+      }
+    });
+  } else {
+    callback(JSON.parse(loc));
+  }
 }
