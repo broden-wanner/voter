@@ -47,7 +47,7 @@ while loop_var<len(zips):
             #find precinct name
             precinct=browser.find_element_by_id("ctl00_MainContent_lblPrecinctName").text
             loc=(browser.find_element_by_id("ctl00_MainContent_lblPPBuildingName").text)
-            adr=(browser.find_element_by_id("ctl00_MainContent_lblPPAddr1").text+browser.find_element_by_id("ctl00_MainContent_lblPPCityStateZip").text)
+            adr=(browser.find_element_by_id("ctl00_MainContent_lblPPAddr1").text+" "+browser.find_element_by_id("ctl00_MainContent_lblPPCityStateZip").text)
 
             if(len(candidates) ==0 ):
                 browser.find_element_by_id("ctl00_MainContent_btnMyBallot").click()
@@ -81,7 +81,7 @@ while loop_var<len(zips):
                     precincts.append(name)
                     precinct=name
                     loc=(browser.find_element_by_id("ctl00_MainContent_lblPPBuildingName").text)
-                    adr=(browser.find_element_by_id("ctl00_MainContent_lblPPAddr1").text+browser.find_element_by_id("ctl00_MainContent_lblPPCityStateZip").text)
+                    adr=(browser.find_element_by_id("ctl00_MainContent_lblPPAddr1").text+" "+browser.find_element_by_id("ctl00_MainContent_lblPPCityStateZip").text)
 
                     if(len(candidates) ==0 ):
                         browser.find_element_by_id("ctl00_MainContent_btnMyBallot").click()
