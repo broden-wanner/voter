@@ -1,0 +1,7 @@
+asgiref==3.2.3
+djangorestframework==3.11.0
+python-dotenv==0.10.5
+pytz==2019.3
+sqlparse==0.3.0
+Django==2.1.14 #This requirement must remain pinned at 2.1.14 until https://github.com/PyMySQL/PyMySQL/issues/790 is resolved
+PyMySQL==0.9.3

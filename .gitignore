@@ -1,3 +1,6 @@
+### Custom Ignores ###
+config.md
+
 ### NPM ignores ###
 *~
 *.sw[mnpcod]
