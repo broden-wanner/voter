@@ -40,7 +40,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/app/you',
+    redirectTo: '/app/login',
     pathMatch: 'full'
   }
 ];
