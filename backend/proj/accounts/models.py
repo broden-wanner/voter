@@ -20,12 +20,6 @@ class Usermodel(AbstractUser):
 
     role = models.BooleanField(default=False)
 
-    partner = models.ForeignKey(
-        'accounts.Usermodel',
-        on_delete=models.SET_NULL,
-        association=None,
-        null=True)
-
     def __str__(self):
         return self.username
     

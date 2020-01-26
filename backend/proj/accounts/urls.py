@@ -3,6 +3,7 @@ from rest_framework import routers
 from accounts.api import UsermodelViewSet, LoginAPI, RegisterAPI
 from accounts import views
 from django.conf.urls import include
+from knox import views as know_views
 
 
 router = routers.DefaultRouter()
@@ -16,5 +17,6 @@ urlpatterns += [
 
 urlpatterns += [
     path('login/', LoginAPI.as_view()),
-    path('register/', RegisterAPI.as_view())
+    path('register/', RegisterAPI.as_view()),
+    path('logout', know_views.LogoutView.as_view(), name='knox_logout')
 ]
