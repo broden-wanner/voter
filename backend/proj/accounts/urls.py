@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework import routers
-from accounts.api import UsermodelViewSet
+from accounts.api import UsermodelViewSet, LoginAPI, RegisterAPI
 from accounts import views
 from django.conf.urls import include
 
@@ -15,4 +15,8 @@ urlpatterns += [
 ]
 urlpatterns += [
     path('api-auth/', include('rest_framework.urls')),
+]
+urlpatterns += [
+    path('login/', LoginAPI.as_view()),
+    path('register/', RegisterAPI.as_view())
 ]
