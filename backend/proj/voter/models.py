@@ -3,10 +3,14 @@ from django.db import models
 # Create your models here.
 
 class Location(models.Model):
-    string = models.CharField(max_length=30)
-    latitude = models.DecimalField(max_digits=12, decimal_places=9)
-    longitude = models.DecimalField(max_digits=12, decimal_places=9)
-    display_name = models.CharField(max_length=30)
+    precinct = models.TextField(max_length=100)
+    # likely unused in the actual database
+    # latitude = models.DecimalField(max_digits=12, decimal_places=9)
+    # likely unused in the actual database
+    # longitude = models.DecimalField(max_digits=12, decimal_places=9)
+    candidates = models.TextField()
+    address = models.TextField()
+    location = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.display_name
+        return self.location
