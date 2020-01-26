@@ -1,14 +1,21 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-
-    <ion-title>Login</ion-title>
+    <ion-title
+      ><img
+        alt="logo"
+        height="22"
+        src="assets/icon/logo-transparent.png"
+        class="header-logo"
+      />Login</ion-title
+    >
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div class="login-logo">
+    <img src="assets/icon/logo-name-transparent.png" alt="VoteR logo" />
+  </div>
+
   <form #loginForm="ngForm" novalidate>
     <ion-list>
       <ion-item>
