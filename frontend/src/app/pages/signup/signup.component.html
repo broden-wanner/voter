@@ -1,7 +1,13 @@
 <ion-header>
   <ion-toolbar>
-    <img alt="logo" height="22" src="assets/icon/logo-transparent.png" class="header-logo" />
-    <ion-title>Signup</ion-title>
+    <ion-title>
+      <img
+        alt="logo"
+        height="22"
+        src="assets/icon/logo-transparent.png"
+        class="header-logo"
+      />Signup</ion-title
+    >
   </ion-toolbar>
 </ion-header>
 
@@ -42,23 +48,6 @@
       <ion-text color="danger">
         <p [hidden]="password.valid || submitted == false" class="ion-padding-start">
           Password is required
-        </p>
-      </ion-text>
-
-      <ion-item>
-        <ion-label position="stacked" color="primary">Preferred Voting Location</ion-label>
-        <ion-input
-          [(ngModel)]="signup.location"
-          name="location"
-          type="text"
-          #location="ngModel"
-          required
-        >
-        </ion-input>
-      </ion-item>
-      <ion-text color="danger">
-        <p [hidden]="password.valid || submitted == false" class="ion-padding-start">
-          Location is required
         </p>
       </ion-text>
     </ion-list>
