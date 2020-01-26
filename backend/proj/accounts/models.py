@@ -15,8 +15,9 @@ class Usermodel(AbstractUser):
         on_delete=models.SET_NULL,
         related_name='current',
         null=True)
+    leaveTime = models.DateTimeField(null=True, blank=True)
+
     role = models.BooleanField(default=False)
-    leaveTime = models.DateTimeField(auto_now=False, auto_now_add=False)
 
 
     def __str__(self):
