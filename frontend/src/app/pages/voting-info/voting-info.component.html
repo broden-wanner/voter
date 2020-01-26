@@ -8,5 +8,29 @@
 </ion-header>
 
 <ion-content>
-  Yeet
+  <ng-container *ngIf="candidates">
+    <ion-list>
+      <ion-list-header>
+        <ion-label><h1>Links to Ballots</h1></ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let ballot of ballots">
+        <ion-label (click)="goTo(ballot.link)">
+          <h2>{{ ballot.party }}</h2>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-list-header>
+        <ion-label><h1>Candidates</h1></ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let candidate of candidates">
+        <ion-label>
+          <ion-icon slot="start" name="contact"></ion-icon>
+          <h2>{{ candidate.name }}</h2>
+          <h4>Party: {{ candidate.party }}</h4>
+          <h4>Office: {{ candidate.office }}</h4>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-container>
 </ion-content>

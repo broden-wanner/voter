@@ -22,7 +22,7 @@ export class SignupComponent {
 
     if (form.valid) {
       this.userData.signup(this.signup.username);
-      this.router.navigateByUrl('/app/you');
+      this.router.navigateByUrl('/app/map?selectLocation=true');
     }
   }
 }

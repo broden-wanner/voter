@@ -1,21 +1,53 @@
-import { Component, ElementRef, Inject, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { LocationData } from '../../providers/location-data';
-import { Platform } from '@ionic/angular';
+import { Platform, AlertController } from '@ionic/angular';
 import { DOCUMENT } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'page-map',
   templateUrl: 'map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit {
+export class MapComponent implements AfterViewInit, OnInit {
   @ViewChild('mapCanvas', { static: true }) mapElement: ElementRef;
+  selectLocation = true;
 
   constructor(
     @Inject(DOCUMENT) private doc: Document,
     public locationData: LocationData,
-    public platform: Platform
+    public platform: Platform,
+    private route: ActivatedRoute,
+    public alertCtrl: AlertController
   ) {}
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.selectLocation = params['selectLocation'];
+      if (this.selectLocation) {
+        this.alertLocationSelection();
+      }
+    });
+  }
+
+  /**
+   * Sets the location of the user's preference for voting
+   * @param markerData - the location to set as the voting place
+   */
+  setLocation(markerData: any) {
+    if (this.selectLocation) {
+      console.log(markerData);
+    }
+  }
+
+  async alertLocationSelection() {
+    const alert = await this.alertCtrl.create({
+      header: 'Select Location',
+      buttons: ['Ok'],
+      message: 'Please pick the location at which you want to vote'
+    });
+    await alert.present();
+  }
 
   async ngAfterViewInit() {
     const appEl = this.doc.querySelector('ion-app');
@@ -23,7 +55,7 @@ export class MapComponent implements AfterViewInit {
 
     const googleMaps = await getGoogleMaps('AIzaSyDAvyXeJn1MTe5NsoKxSwBTufnavgn4AWI');
 
-    let map;
+    let map: any;
 
     this.locationData.getMap().subscribe((mapData: any) => {
       const mapEle = this.mapElement.nativeElement;
@@ -47,6 +79,7 @@ export class MapComponent implements AfterViewInit {
 
         marker.addListener('click', () => {
           infoWindow.open(map, marker);
+          this.setLocation(markerData);
         });
       });
 
