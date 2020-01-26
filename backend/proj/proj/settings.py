@@ -182,3 +182,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+
+STATICFILES_DIRS = [os.path.abspath(os.path.join(BASE_DIR, '..', '..', 'frontend', 'www'))]

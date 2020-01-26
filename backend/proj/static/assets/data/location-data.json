@@ -1,0 +1,25 @@
+{
+  "map": [
+    {
+      "name": "Armory",
+      "lat": 44.97746,
+      "lng": -93.232144,
+      "center": true
+    },
+    {
+      "name": "Rivertown Condos",
+      "lat": 44.983373,
+      "lng": -93.265845
+    },
+    {
+      "name": "Minneapolis Central Library",
+      "lat": 44.979933,
+      "lng": -93.269659
+    },
+    {
+      "name": "Grace Lutheran Church",
+      "lat": 44.972555,
+      "lng": -93.230589
+    }
+  ]
+}
